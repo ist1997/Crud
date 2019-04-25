@@ -23,22 +23,42 @@ public class FootballerDao {
         return connection;
     }
 
-    public static int save(Footballer footballer) {
-        int status = 0;
-        try {
-            Connection con = FootballerDao.getConnection();
-            PreparedStatement ps = con.prepareStatement("insert into footballers(name, team, nationality, price) values (?, ?, ?, ?)");
+    public static void save(Footballer footballer) {
+        try (Connection con = FootballerDao.getConnection()) {
+            String sqlQuery = "insert into footballers(name, team, nationality, price) values (?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(sqlQuery);
             ps.setString(1, footballer.getName());
             ps.setString(2, footballer.getTeam());
             ps.setString(3, footballer.getNationality());
             ps.setDouble(4, footballer.getPrice());
-
-            status = ps.executeUpdate();
-            con.close();
+            ps.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return status;
+    }
+
+    public static void update(Footballer footballer) {
+        try (Connection con = FootballerDao.getConnection()) {
+            String sqlQuery = "update transfermarket.footballers set name=?,team=?,nationality=?,price=? where id=?";
+            PreparedStatement ps = con.prepareStatement(sqlQuery);
+            ps.setString(1, footballer.getName());
+            ps.setString(2, footballer.getTeam());
+            ps.setString(3, footballer.getNationality());
+            ps.setDouble(4, footballer.getPrice());
+            ps.setInt(5, footballer.getId());
+            ps.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void delete(int id) {
+        try (Connection con = FootballerDao.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("delete from transfermarket.footballers where id=" + id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<Footballer> getAllFootballers() {
@@ -60,5 +80,14 @@ public class FootballerDao {
             e.printStackTrace();
         }
         return footballers;
+    }
+
+    public static Footballer getFootballerById(int id) {
+        for (Footballer footballer : getAllFootballers()) {
+            if (footballer.getId() == id) {
+                return footballer;
+            }
+        }
+        return null;
     }
 }
