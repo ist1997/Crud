@@ -4,6 +4,18 @@
     <title>TransferMarket</title>
   </head>
   <body>
-
+  <form action="create" method="post">
+    <table>
+      <tr><td>Name:</td><td><input type="text" name="name"/></td></tr>
+      <tr><td>Team:</td><td><input type="text" name="team"/></td></tr>
+      <tr><td>Nationality:</td><td><input type="text" name="nationality"/></td></tr>
+      <tr><td>Price:</td><td><input type="text" name="price"/></td></tr>
+      <tr><td colspan="2"><input type="submit" value="Add footballer"/></td></tr>
+    </table>
+  </form>
+  <br/>
+  <form action="read">
+    <input type="submit" value="Show footballer list">
+  </form>
   </body>
 </html>
