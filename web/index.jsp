@@ -21,15 +21,17 @@
         <th>Delete</th>
     </tr>
     <%
-        for (Footballer footballer : FootballerDao.getAllFootballers()) {
-            out.print("<tr><td>" +
-                    footballer.getId() + "</td><td>" +
-                    footballer.getName() + "</td><td>" +
-                    footballer.getTeam() + "</td><td>" +
-                    footballer.getNationality() + "</td><td>$" +
-                    footballer.getPrice() + " m</td><td>" +
-                    "<a href='update?id=" + footballer.getId() + "'>update</a></td><td>" +
-                    "<a href='delete?id=" + footballer.getId() + "'>delete</a></td></tr>");
+        for (Footballer footballer : FootballerDao.getAllFootballers()) { %>
+    <tr>
+        <td><%=footballer.getId()%></td>
+        <td><%=footballer.getName()%></td>
+        <td><%=footballer.getTeam()%></td>
+        <td><%=footballer.getNationality()%></td>
+        <td><%=footballer.getPrice()%></td>
+        <td><a href='update?id=<%=footballer.getId()%>'>update</a></td>
+        <td><a href='delete?id=<%=footballer.getId()%>'>delete</a></td>
+    </tr>
+    <%
         }
     %>
 </table>

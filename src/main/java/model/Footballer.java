@@ -8,6 +8,9 @@ public class Footballer {
     private String nationality;
     private double price;
 
+    public Footballer() {
+    }
+
     public Footballer(String name, String team, String nationality, double price) {
         this.name = name;
         this.team = team;
