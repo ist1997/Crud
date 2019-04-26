@@ -1,4 +1,8 @@
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    List<String> countries = (List<String>) request.getAttribute("countries");
+%>
 <html>
 <head>
     <title>Add new footballer</title>
@@ -16,7 +20,14 @@
         </tr>
         <tr>
             <td>Nationality:</td>
-            <td><input type="text" name="nationality"/></td>
+            <td>
+                <select size="1" required name="nationality">
+                    <%for (String country : countries) {%>
+                    <option value="<%=country%>"><%=country%>
+                    </option>
+                    <%}%>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Price:</td>

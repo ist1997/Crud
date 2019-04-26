@@ -6,7 +6,7 @@
     <title>TransferMarket</title>
 </head>
 <body>
-<form action='add.jsp'>
+<form action='getData' method="post">
     <input type='submit' value='Add new footballer'>
 </form>
 <h1>Footballer List</h1>
@@ -20,20 +20,17 @@
         <th>Update</th>
         <th>Delete</th>
     </tr>
-    <%
-        for (Footballer footballer : FootballerDao.getAllFootballers()) { %>
+    <%for (Footballer footballer : FootballerDao.getAllFootballers()) { %>
     <tr>
         <td><%=footballer.getId()%></td>
         <td><%=footballer.getName()%></td>
         <td><%=footballer.getTeam()%></td>
         <td><%=footballer.getNationality()%></td>
-        <td><%=footballer.getPrice()%></td>
+        <td>$<%=footballer.getPrice()%> m</td>
         <td><a href='update?id=<%=footballer.getId()%>'>update</a></td>
         <td><a href='delete?id=<%=footballer.getId()%>'>delete</a></td>
     </tr>
-    <%
-        }
-    %>
+    <%}%>
 </table>
 </body>
 </html>
