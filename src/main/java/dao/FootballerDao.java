@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FootballerDao {
-    private static final String URL = "jdbc:mysql://localhost:3306/transfermarket?useSSL=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/transfermarket?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "1111";
 

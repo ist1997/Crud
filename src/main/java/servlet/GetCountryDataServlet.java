@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet(name = "GetCountryDataServlet", value = "/getData")
 public class GetCountryDataServlet extends HttpServlet {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/world?useSSL=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "1111";
 
