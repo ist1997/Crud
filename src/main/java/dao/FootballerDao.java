@@ -1,9 +1,9 @@
 package dao;
 
+import db.DatabaseConnector;
 import model.Footballer;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,25 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FootballerDao {
-    private static final String URL = "jdbc:mysql://localhost:3306/transfermarket?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
-    private static final String USER = "root";
-    private static final String PASSWORD = "1111";
 
-    private static Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
+    private static final String DATABASE_NAME = "transfermarket";
 
     public static void save(Footballer footballer) {
-        try (Connection con = FootballerDao.getConnection()) {
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
             String sqlQuery = "insert into footballers(name, team, nationality, price) values (?, ?, ?, ?)";
-            PreparedStatement ps = con.prepareStatement(sqlQuery);
+            PreparedStatement ps = connection.prepareStatement(sqlQuery);
             ps.setString(1, footballer.getName());
             ps.setString(2, footballer.getTeam());
             ps.setString(3, footballer.getNationality());
@@ -41,9 +29,9 @@ public class FootballerDao {
     }
 
     public static void update(Footballer footballer) {
-        try (Connection con = FootballerDao.getConnection()) {
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
             String sqlQuery = "update transfermarket.footballers set name=?,team=?,nationality=?,price=? where id=?";
-            PreparedStatement ps = con.prepareStatement(sqlQuery);
+            PreparedStatement ps = connection.prepareStatement(sqlQuery);
             ps.setString(1, footballer.getName());
             ps.setString(2, footballer.getTeam());
             ps.setString(3, footballer.getNationality());
@@ -56,8 +44,8 @@ public class FootballerDao {
     }
 
     public static void delete(int id) {
-        try (Connection con = FootballerDao.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("delete from transfermarket.footballers where id=" + id);
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
+            PreparedStatement ps = connection.prepareStatement("delete from transfermarket.footballers where id=" + id);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,7 +54,7 @@ public class FootballerDao {
 
     public static List<Footballer> getAllFootballers() {
         List<Footballer> footballers = new ArrayList<>();
-        try (Connection connection = FootballerDao.getConnection()) {
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM transfermarket.footballers");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
