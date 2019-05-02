@@ -35,7 +35,7 @@
     </table>
 </form>
 <br/>
-<form action="index.jsp">
+<form action="show_list.jsp">
     <input type="submit" value="Back to footballer list">
 </form>
 </body>

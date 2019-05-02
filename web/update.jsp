@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Update information about footballer</h1>
-<form action="save" method="post">
+<form action="update" method="post">
     <table>
         <tr>
             <td>Id:</td>
@@ -46,7 +46,7 @@
     </table>
 </form>
 <br/>
-<form action="index.jsp">
+<form action="show_list.jsp">
     <input type="submit" value="Back to footballer list">
 </form>
 </body>

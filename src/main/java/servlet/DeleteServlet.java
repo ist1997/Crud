@@ -14,6 +14,6 @@ public class DeleteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         FootballerDao.delete(id);
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("show_list.jsp");
     }
 }

@@ -15,6 +15,6 @@ public class AddServlet extends javax.servlet.http.HttpServlet {
 
         Footballer footballer = new Footballer(name, team, nationality, price);
         FootballerDao.save(footballer);
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("show_list.jsp");
     }
 }
