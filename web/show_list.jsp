@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="dao.FootballerDao" %>
 <%@ page import="dao.UserDao" %>
+<%@ page import="model.Role" %>
 <c:set var="footballers" value="${FootballerDao.getAllFootballers()}"/>
 <html>
 <head>
@@ -10,7 +11,7 @@
 <body>
 <div style="text-align: center;">
     <c:out value="You entered as ${user.getLogin()} (${UserDao.getUserRole(user)})"/><br>
-    <c:if test="${user.getRoleId()==1}">
+    <c:if test="${user.getRole()==Role.ADMIN}">
         <form action='addOrUpdate' method="post">
             <input type='submit' value='Add new footballer'>
         </form>
@@ -24,7 +25,7 @@
         <th>Team</th>
         <th>Nationality</th>
         <th>Price</th>
-        <c:if test="${user.getRoleId()==1}">
+        <c:if test="${user.getRole()==Role.ADMIN}">
             <th>Update</th>
             <th>Delete</th>
         </c:if>
@@ -36,7 +37,7 @@
             <td>${footballer.getTeam()}</td>
             <td>${footballer.getNationality()}</td>
             <td>${footballer.getPrice()} m</td>
-            <c:if test="${user.getRoleId()==1}">
+            <c:if test="${user.getRole()==Role.ADMIN}">
                 <td><a href='addOrUpdate?id=${footballer.getId()}'>update</a></td>
                 <td><a href='delete?id=${footballer.getId()}'>delete</a></td>
             </c:if>

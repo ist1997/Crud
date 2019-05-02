@@ -45,4 +45,15 @@ public class Footballer {
     public double getPrice() {
         return price;
     }
+
+    @Override
+    public String toString() {
+        return "Footballer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", team='" + team + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

@@ -5,7 +5,7 @@ public class User {
     private long id;
     private String login;
     private String password;
-    private long roleId;
+    private Role role;
 
     public User() {
 
@@ -14,14 +14,14 @@ public class User {
     public User(String login, String password) {
         this.login = login;
         this.password = password;
-        this.roleId = 2;
+        this.role = Role.USER;
     }
 
-    public User(long id, String login, String password, long roleId) {
+    public User(long id, String login, String password, Role role) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.roleId = roleId;
+        this.role = role;
     }
 
     public long getId() {
@@ -36,7 +36,17 @@ public class User {
         return password;
     }
 
-    public long getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

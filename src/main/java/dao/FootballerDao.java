@@ -2,6 +2,7 @@ package dao;
 
 import db.DatabaseConnector;
 import model.Footballer;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,50 +13,58 @@ import java.util.List;
 
 public class FootballerDao {
 
+    private static final String SAVE_METHOD_QUERY = "INSERT INTO footballers(name, team, nationality, price) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE_METHOD_QUERY = "UPDATE transfermarket.footballers SET name=?,team=?,nationality=?,price=? WHERE id=?";
+    private static final String DELETE_METHOD_QUERY = "DELETE FROM transfermarket.footballers WHERE id=?";
+    private static final String GET_ALL_METHOD_QUERY = "SELECT * FROM transfermarket.footballers";
     private static final String DATABASE_NAME = "transfermarket";
+    private static final Logger logger = Logger.getLogger(FootballerDao.class);
 
     public static void save(Footballer footballer) {
         try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
-            String sqlQuery = "insert into footballers(name, team, nationality, price) values (?, ?, ?, ?)";
-            PreparedStatement ps = connection.prepareStatement(sqlQuery);
+            PreparedStatement ps = connection.prepareStatement(SAVE_METHOD_QUERY);
             ps.setString(1, footballer.getName());
             ps.setString(2, footballer.getTeam());
             ps.setString(3, footballer.getNationality());
             ps.setDouble(4, footballer.getPrice());
+            logger.debug("SQL query for save method: " + SAVE_METHOD_QUERY);
             ps.executeUpdate();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            logger.error("Can`t connect to database", e);
         }
     }
 
     public static void update(Footballer footballer) {
         try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
-            String sqlQuery = "update transfermarket.footballers set name=?,team=?,nationality=?,price=? where id=?";
-            PreparedStatement ps = connection.prepareStatement(sqlQuery);
+            PreparedStatement ps = connection.prepareStatement(UPDATE_METHOD_QUERY);
             ps.setString(1, footballer.getName());
             ps.setString(2, footballer.getTeam());
             ps.setString(3, footballer.getNationality());
             ps.setDouble(4, footballer.getPrice());
             ps.setInt(5, footballer.getId());
+            logger.debug("SQL query for update method: " + UPDATE_METHOD_QUERY);
             ps.executeUpdate();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            logger.error("Can`t connect to database", e);
         }
     }
 
     public static void delete(int id) {
         try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
-            PreparedStatement ps = connection.prepareStatement("delete from transfermarket.footballers where id=" + id);
+            PreparedStatement ps = connection.prepareStatement(DELETE_METHOD_QUERY);
+            ps.setLong(1, id);
+            logger.debug("SQL query for delete method: " + DELETE_METHOD_QUERY);
             ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            logger.error("Can`t connect to database", e);
         }
     }
 
     public static List<Footballer> getAllFootballers() {
         List<Footballer> footballers = new ArrayList<>();
         try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME)) {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM transfermarket.footballers");
+            PreparedStatement ps = connection.prepareStatement(GET_ALL_METHOD_QUERY);
+            logger.debug("SQL query for getALLFootballers method: " + GET_ALL_METHOD_QUERY);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Footballer footballer = new Footballer(
@@ -68,7 +77,7 @@ public class FootballerDao {
                 footballers.add(footballer);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Can`t connect to database", e);
         }
         return footballers;
     }
